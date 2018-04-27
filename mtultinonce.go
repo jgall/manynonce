@@ -1,6 +1,6 @@
-// Package multinonce provides utilities to encrypt messages with the standard nonce size, but using the number of nonces given.
+// Package manynonce provides utilities to encrypt messages with the standard nonce size, but using the number of nonces given.
 // This is useful for avoiding nonce collisions within the restriction of using the standard nonce size
-package multinonce
+package manynonce
 
 import (
 	"crypto/aes"

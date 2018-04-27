@@ -1,4 +1,4 @@
-package multinonce
+package manynonce
 
 import "testing"
 
