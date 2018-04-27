@@ -37,5 +37,24 @@ func ToAES(message []byte, masterkey []byte, nonces int) ([]byte, error) {
 
 // FromAES decrypts the given ciphertext using the given masterkey and number of nonces provided
 func FromAES(ciphertext []byte, masterkey []byte, nonces int) ([]byte, error) {
-	return nil, nil
+	if nonces <= 0 {
+		return nil, errors.New("Number of nonces must be greater than 0")
+	}
+	msg := ciphertext
+
+	for i := 0; i < nonces; i++ {
+		block, err := aes.NewCipher(masterkey)
+		if err != nil {
+			return nil, err
+		}
+		aesgcm, err := cipher.NewGCM(block)
+		if err != nil {
+			return nil, err
+		}
+		msg, err = aesgcm.Open(nil, msg[0:aesgcm.NonceSize()], msg[aesgcm.NonceSize():], nil)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return msg, nil
 }
