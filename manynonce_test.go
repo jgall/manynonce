@@ -1,6 +1,8 @@
 package manynonce
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestMultiNonce(t *testing.T) {
 	secretMessage := []byte("I'm super secret shhhhh don't tell anyone")

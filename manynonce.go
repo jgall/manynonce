@@ -1,5 +1,5 @@
 // Package manynonce provides utilities to encrypt messages with the standard nonce size, but using the number of nonces given.
-// This is useful for avoiding nonce collisions within the restriction of using the standard nonce size
+// This is useful for avoiding nonce collisions within the restriction of using the standard nonce size (although honestly any number over 2-3 is overkill).
 package manynonce
 
 import (
