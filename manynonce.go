@@ -16,16 +16,16 @@ func ToAES(message []byte, masterkey []byte, nonces int) ([]byte, error) {
 		return nil, errors.New("Number of nonces must be greater than 0")
 	}
 	ciphertext := message
+	block, err := aes.NewCipher(masterkey)
+	if err != nil {
+		return nil, err
+	}
+	aesgcm, err := cipher.NewGCM(block)
+	if err != nil {
+		return nil, err
+	}
 
 	for i := 0; i < nonces; i++ {
-		block, err := aes.NewCipher(masterkey)
-		if err != nil {
-			return nil, err
-		}
-		aesgcm, err := cipher.NewGCM(block)
-		if err != nil {
-			return nil, err
-		}
 		nonce := make([]byte, aesgcm.NonceSize())
 		if _, err := io.ReadFull(rand.Reader, nonce); err != nil {
 			return nil, err
@@ -41,16 +41,16 @@ func FromAES(ciphertext []byte, masterkey []byte, nonces int) ([]byte, error) {
 		return nil, errors.New("Number of nonces must be greater than 0")
 	}
 	msg := ciphertext
+	block, err := aes.NewCipher(masterkey)
+	if err != nil {
+		return nil, err
+	}
+	aesgcm, err := cipher.NewGCM(block)
+	if err != nil {
+		return nil, err
+	}
 
 	for i := 0; i < nonces; i++ {
-		block, err := aes.NewCipher(masterkey)
-		if err != nil {
-			return nil, err
-		}
-		aesgcm, err := cipher.NewGCM(block)
-		if err != nil {
-			return nil, err
-		}
 		msg, err = aesgcm.Open(nil, msg[0:aesgcm.NonceSize()], msg[aesgcm.NonceSize():], nil)
 		if err != nil {
 			return nil, err
